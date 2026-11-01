@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  postgres_db:
+    image: postgres:15
+    container_name: postgres_fikrul
+    env_file:
+      - .env
+    ports:
+      - "22141:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - mbd_network
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin_fikrul
+    env_file:
+      - .env
+    ports:
+      - "44141:80"
+    depends_on:
+      - postgres_db
+    networks:
+      - mbd_network
+
+networks:
+  mbd_network:
+    driver: bridge
+
+volumes:
+  postgres_data:
